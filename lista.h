@@ -2,7 +2,6 @@
 #define __LISTA__
 
 #include <stdlib.h>
-#include <stdbool.h>
 
 // Declaracion del tipo lista
 typedef struct _lista_
@@ -23,6 +22,22 @@ size_t len(list *lista)
   }
 
   return vlen;
+}
+
+// Obtener lista en la posicion "posicion"
+list *_get(list *lista, size_t posicion)
+{
+  for(size_t i = 0; lista; i++, lista = lista->next)
+    if(i == posicion)
+      return lista;
+
+  return NULL;
+}
+
+// Obtener dato de un elemento
+void *get(list *lista, size_t posicion)
+{
+  return _get(lista, posicion)->data;
 }
 
 // Inserta un nuevo elemento en la lista
@@ -86,7 +101,37 @@ list *delete(list *lista, size_t posicion,  void (*freedata)(void *))
   return lista;
 }
 
-// Limpia la memoria dinamica asignada
+//funcion de intercambio
+void swap(list *lista, int i, int j)
+{
+  void *temp;
+
+  temp = get(lista, i);
+  _get(lista, i)->data = get(lista, j);
+  _get(lista, j)->data = temp;
+  
+}
+
+// Ordena una lista con el metodo quickssort
+void sort(list *lista, int izq, int der, int (*cmp)(void *, void *))
+{
+  int i, last;
+
+  if(izq >= der)
+    return;
+  swap(lista, izq, (izq + der) / 2);
+  last = izq;
+
+  for(i = izq + 1; i <= der; i++)
+    if(cmp(get(lista, i), get(lista, izq)) < 0)
+      swap(lista, ++last, i);
+  
+  swap(lista, izq, last);
+  sort(lista, izq, last - 1, cmp);
+  sort(lista, last + 1, der, cmp);
+}
+
+// Limpia la memoria asignada
 void clear(list *lista, void (*freedata)(void *))
 {
   list *temp;
