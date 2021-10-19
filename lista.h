@@ -43,31 +43,28 @@ void *get(list *lista, size_t posicion)
 // Inserta un nuevo elemento en la lista
 list *insert(list *lista, void *data, size_t posicion)
 {
+  size_t i = 0;
   list *anterior = NULL;
   list *actual = lista;
 
-  for(size_t i = 0; ; i++)
+  while(i != posicion && actual)
   {
-    if(i == posicion || !actual)
-    {
-      // Memoria necesaria para el nuevo elemento
-      list *nueva = malloc(sizeof(list));
-
-      // Asigna los valores al nuevo elemento
-      nueva->data = data;
-      nueva->next = actual;
-
-      if(anterior)
-	anterior->next = nueva;
-      else
-	lista = nueva;
-
-      break;
-    }
-
     anterior = actual;
     actual = actual->next;
+    i++;
   }
+
+  // Memoria necesaria para el nuevo elemento
+  list *nueva = malloc(sizeof(list));
+
+  // Asigna los valores al nuevo elemento
+  nueva->data = data;
+  nueva->next = actual;
+
+  if(anterior)
+    anterior->next = nueva;
+  else
+    lista = nueva;
 
   return lista;
 }
@@ -136,13 +133,15 @@ void clear(list *lista, void (*freedata)(void *))
 {
   list *temp;
   
-  for(; lista; lista = temp)
+  while(lista)
   {
     temp = lista->next;
     
     if(freedata)
       freedata(lista->data);
     free(lista);
+
+    lista = temp;
   }
 }
 #endif
