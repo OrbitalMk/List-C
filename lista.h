@@ -55,8 +55,11 @@ list *insert(list *lista, void *data, size_t posicion)
   }
 
   // Memoria necesaria para el nuevo elemento
-  list *nueva = malloc(sizeof(list));
+  list *nueva = malloc(sizeof(list *));
 
+  if(!nueva)
+    return lista;
+  
   // Asigna los valores al nuevo elemento
   nueva->data = data;
   nueva->next = actual;
@@ -99,7 +102,7 @@ list *delete(list *lista, size_t posicion,  void (*freedata)(void *))
 }
 
 //funcion de intercambio
-void swap(list *lista, int i, int j)
+void _swap(list *lista, int i, int j)
 {
   void *temp;
 
@@ -116,14 +119,14 @@ void sort(list *lista, int izq, int der, int (*cmp)(void *, void *))
 
   if(izq >= der)
     return;
-  swap(lista, izq, (izq + der) / 2);
+  _swap(lista, izq, (izq + der) / 2);
   last = izq;
 
   for(i = izq + 1; i <= der; i++)
     if(cmp(get(lista, i), get(lista, izq)) < 0)
-      swap(lista, ++last, i);
+      _swap(lista, ++last, i);
   
-  swap(lista, izq, last);
+  _swap(lista, izq, last);
   sort(lista, izq, last - 1, cmp);
   sort(lista, last + 1, der, cmp);
 }
