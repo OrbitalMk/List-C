@@ -54,7 +54,12 @@ dlist *_get(dlist *lista, size_t posicion)
 // Obtener dato de un elemento
 void *get(dlist *lista, size_t posicion)
 {
-  return _get(lista, posicion)->data;
+  dlist *ptr = _get(lista, posicion);
+  
+  if(ptr)
+    return ptr->data;
+
+  return NULL;
 }
 
 // Inserta un nuevo elemento en la lista
