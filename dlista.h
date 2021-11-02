@@ -36,6 +36,13 @@ dlist *last(dlist *lista)
   return temp;
 }
 
+// Para cada elemento aplicar 'func'
+void foreach(dlist *lista, void (*func)(void *))
+{
+  for(dlist *temp = first(lista); temp; temp = temp->next)
+    func(temp->data);
+}
+
 // Retorna el tamaño de lista
 size_t len(dlist *lista)
 {

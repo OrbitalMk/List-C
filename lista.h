@@ -22,6 +22,13 @@ list *last(list *lista)
   return temp;
 }
 
+// Para cada elemento aplicar 'func'
+void foreach(list *lista, void (*func)(void *))
+{
+  for(list *temp = lista; temp; temp = temp->next)
+    func(temp->data);
+}
+
 // Retorna el tamaño de lista
 size_t len(list *lista)
 {
