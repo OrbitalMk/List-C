@@ -10,6 +10,18 @@ typedef struct _lista_
   struct _lista_ *next;
 }list;
 
+// Retorna el ultimo elemento
+list *last(list *lista)
+{
+  list *temp = lista;
+
+  if(temp)
+    while(temp->next)
+      temp = temp->next;
+
+  return temp;
+}
+
 // Retorna el tamaño de lista
 size_t len(list *lista)
 {

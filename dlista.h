@@ -24,6 +24,18 @@ dlist *first(dlist *lista)
   return temp;
 }
 
+// Retorna el ultimo elemento
+dlist *last(dlist *lista)
+{
+  dlist *temp = lista;
+
+  if(temp)
+    while(temp->next)
+      temp = temp->next;
+
+  return temp;
+}
+
 // Retorna el tamaño de lista
 size_t len(dlist *lista)
 {
